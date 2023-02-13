@@ -1,0 +1,57 @@
+<div id="forgotPasswordDiv" class="hide">
+                                        <form class="form-horizontal" action="forgotPassword.php" method="POST">
+                                                <div class="group">
+                                                        <input id="fusername" type="text" name="username"  >
+                                                        <span class="bar"></span>
+                                                        <label>Username</label>
+                                                </div>
+                                                <div class="group">
+                                                        <input id="email" type="email" name="emailId" placeholder="Email">
+                                                        <span class="bar"></span>
+                                                        <label>Email</label>
+                                                </div>
+                                                <div class="group">
+                                                        <button type="submit" class="button buttonBlue forgot-submit-btn">Submit</button><br>
+                                                        <span>Please enter details and submit<a class="forgotPasswordLink pull-right" style="color: #15c;">Back</a></span>
+                                                </div>
+                                        </form>
+                                </div>
+
+
+
+
+
+
+
+ <script>
+                        jQuery(document).ready(function () {
+                                var validationMessage = jQuery('#validationMessage');
+                                var forgotPasswordDiv = jQuery('#forgotPasswordDiv');
+
+                                var loginFormDiv = jQuery('#loginFormDiv');
+                                loginFormDiv.find('#password').focus();
+
+
+
+                                        var username = loginFormDiv.find('#username').val();
+                                        var password = jQuery('#password').val();
+                                        var result = true;
+                                        var errorMessage = '';
+                                        jQuery('#LoginF').submit();
+                                        if (username === '') {
+                                                errorMessage = 'Please enter valid username';
+                                                result = false;
+                                        } else if (password === '') {
+                                                errorMessage = 'Please enter valid password';
+                                                result = false;
+                                        }
+                                        if (errorMessage) {
+                                                validationMessage.removeClass('hide').text(errorMessage);
+                                        }
+                                        return result;
+
+
+
+
+
+                                forgotPasswordDiv.find('button').on('click', function () {

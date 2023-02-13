@@ -1,0 +1,13 @@
+cd /var/www/vtigercrm
+nano includes/main/WebUI.php
+//nano includes/http/Request.php
+nano modules/Users/actions/Login.php
+nano modules/Users/views/Login.php
+nano layouts/v7/modules/Users/Login.tpl
+nano modules/Users/Users.php
+//verify
+nano modules/Users/Users.php
+ cd modules/Users/actions/Login.php
+//nano includes/http/Request.php
+// defined
+nano includes/main/WebUI.php

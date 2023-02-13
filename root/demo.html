@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="UTF-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>My Blog</title>
+                <style>
+                        body {
+                                font-family: Verdana, Geneva, Tahoma, sans-serif;
+                                padding: 50px;
+                        }
+                        .nav {
+                                display: flex;
+                                justify-content: space-between;
+                        }
+
+                        .show {
+                                display: block;
+                        }
+
+                        .hide {
+                                display: none;
+                        }
+
+                        .logout-link {
+                                color: dodgerblue;
+                                cursor: pointer;
+                        }
+                </style>
+        </head>
+        <body>
+
+
+                <nav class="nav">
+                        <div id="user"></div>
+                        <div class="hide" id="logout-section">
+                                <span id="logout" class="logout-link">logout</span>
+                        </div>
+                </nav>
+
+  <br />
+  <script src="https://unpkg.com/@authorizerdev/authorizer-js@1.1.2/lib/authorizer.min.js"></script>
+  <script type="text/javascript">
+          const userSection = document.getElementById('user');
+          const logoutSection = document.getElementById('logout-section');
+          const logoutBtn = document.getElementById('logout');
+
+          const authorizerRef = new authorizerdev.Authorizer({
+                  authorizerURL: 'http://192.168.50.161:8080',
+                  redirectURL: window.location.origin,
+                  clientID: '905ff253-87f0-498d-abba-87808718f6f6',
+          });
+
+          logoutBtn.addEventListener('click', async function () {
+                  await authorizerRef.logout();
+                  window.location.href = '/';
+          });
+async function onLoad() {
+                  try {
+                          const res = await authorizerRef.getSession();
+                          if (res && res.access_token) {
+                                  // get user profile using the access token
+                                  const user = await authorizerRef.getProfile({
+                                          Authorization: `Bearer ${res.access_token}`,
+                                  });
+                                  console.log({ user });
+
+                                  logoutSection.classList.toggle('hide');
+                                  userSection.innerHTML = `Welcome, ${user.email}`;
+                          }
+                  } catch (err) {
+                          window.location.replace(`http://192.168.50.161:8080/app?redirect_uri=${window.location.origin}/getMail.php`);
+                  }
+          }
+          onLoad();
+  </script>
+</body>
+</html>

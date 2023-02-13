@@ -1,0 +1,14 @@
+//change the deafult opening file type and name
+    /etc/apache2/mods-enabled/dir.conf
+    //deafult
+    DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
+    //custom
+    <IfModule mod_dir.c>
+        DirectoryIndex demo.html
+    </IfModule>
+
+
+//enabling vtigercrm 
+nano sites-available/
+sudo a2dissite 000-deafult.conf 
+sudo a2ensite vtigercrm.conf
