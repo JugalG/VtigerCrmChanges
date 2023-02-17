@@ -1,4 +1,6 @@
- 
+// ref to what config.db.php shall look like
+
+
 config.db.php 192.168.170
   $dbconfig['db_server'] = '_DBC_SERVER_';
   $dbconfig['db_port'] = '_DBC_PORT_';

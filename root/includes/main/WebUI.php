@@ -1,13 +1,7 @@
-//PASS USERNSME AND ACCESS KEY in the process()
 //session_start() funtion at start of file 
-
-
-
-
-
-
-
-
+//get the username and accesskey passed to local variable.
+//PASS USERNSME AND ACCESS KEY in the process()
+//remove the Vtiger_Session::init() from process() function.
 
 <?php
 /*+**********************************************************************************
@@ -20,7 +14,7 @@
  ************************************************************************************/
 session_start();
 $username_session = $_SESSION['mailUSERNAME'];
-$key_session      = $_SESSION['mailKEY'];
+$key_session      = $_SESSION['mailAccessKey'];
 require_once 'include/utils/utils.php';
 require_once 'include/utils/CommonUtils.php';
 
@@ -28,10 +22,6 @@ require_once 'includes/Loader.php';
 vimport ('includes.runtime.EntryPoint');
 
 class Vtiger_WebUI extends Vtiger_EntryPoint {
-//session_start();
-//$username_session = $_SESSION['mailUSERNAME'];
-//$key_session      = $_SESSION['mailKEY'];
-
         /**
          * Function to check if the User has logged in
          * @param Vtiger_Request $request

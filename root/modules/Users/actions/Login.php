@@ -1,3 +1,10 @@
+nano modules/Users/actions/Login.php
+//change the header to redirect user back to / of host in case the login does not work 
+//we have set / of hot to redirect back to authorizer.
+// change from: header ('Location: index.php?module=Users&parent=Settings&view=Login&error=login');
+// change to:  header ('Location:http://192.168.50.170/');
+
+
 <?php
 /*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1

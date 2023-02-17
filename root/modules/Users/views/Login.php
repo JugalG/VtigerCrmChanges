@@ -1,3 +1,6 @@
+//call the username and acceesskry from session and pass into local variable
+//unset the session variable and the temporarily created session variable in the preProcess
+
 function preProcess(Vtiger_Request $request, $display = true) {
                 $viewer = $this->getViewer($request);
                 //username

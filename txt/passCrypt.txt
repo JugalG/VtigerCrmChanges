@@ -1,9 +1,0 @@
-//verify pass
-nano modules/Users/Users.php
-
-
-  $encrypted_password = ($crypt_type == 'PHASH') ?
-                                password_hash($user_password, PASSWORD_DEFAULT) : /* recommended */
-                                crypt($user_password, $salt); /* backward compatibility */
-
-                return $encrypted_password;

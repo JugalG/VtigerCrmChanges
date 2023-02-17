@@ -1,3 +1,6 @@
+//this is a file that depicts the Login.tpl file changes I implemented as testing on cloud
+//root\layouts\v7\modules\Users\Login.tpl
+
 <div id="forgotPasswordDiv" class="hide">
                                         <form class="form-horizontal" action="forgotPassword.php" method="POST">
                                                 <div class="group">

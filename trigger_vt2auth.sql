@@ -1,3 +1,5 @@
+//triggers created durinig initial testing
+
 //insert trigger
 DELIMITER $$
 CREATE TRIGGER vtiger_to_authorizer_trigger

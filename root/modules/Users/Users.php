@@ -1,4 +1,7 @@
 nano modules/Users/Users.php
+//get accesskey from the db by adding 'accesskey' in the select function.
+//change the password checking function from password to accesskey check 
+
 
 //local
 
@@ -44,10 +47,7 @@ function doLogin($user_password) {
                 if ($user_status == 'Active') {
                         if ($crypt_type == 'PHASH') {
 //                              $ok = password_verify($user_password, $dbuser_password);
-                                <!-- $_SESSION['db_password']= $dbuser_password;     
-                                $_SESSION['og_password']= $user_password;
-                                $_SESSION['db_accesskey']=$db_accesskey;
-                                $_SESSION['og_accesskey']=$user_password; -->
+
                                 //if($user_password== $dbuser_password){
                                 if($db_accesskey == $user_password){
                                         $ok =true;

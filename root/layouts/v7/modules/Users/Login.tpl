@@ -1,3 +1,9 @@
+//the following snippets are relative code snippets
+//following codes are the loginForm html code and the jquery code for the same login form
+//change the input type for login form for all values -> hidden
+//forgot password form and jquery can be eliminated as we do not want the same.
+//in the css code for login form, hide the form contents and itself entirely using display: none;
+       
         <span class="app-nav"></span>
         <div class="container-fluid loginPageContainer">
                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
@@ -31,15 +37,6 @@
 				<script>
 					jQuery('#LoginF').submit();
 				</script>
-
-
-
-
-
-
-
-
-
 
 
 

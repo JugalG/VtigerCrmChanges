@@ -1,3 +1,5 @@
+//access to the topbar menu.
+
 {*+**********************************************************************************
 * The contents of this file are subject to the vtiger CRM Public License Version 1.1
 * ("License"); You may not use this file except in compliance with the License
@@ -194,8 +196,6 @@
                                                                                         </span>
                                                                                         <span class="pull-right">
                                                                                                 <span class="fa fa-power-off"></span>
-                                                                                                
-                                                                                                <a id="menubar_item_right_LBL_SIGN_OUT" href="http://192.168.50.170/">rootRDRT</a>
                                                                                                 <a id="menubar_item_right_LBL_SIGN_OUT" href="index.php?module=Users&action=Logout">{vtranslate('LBL_SIGN_OUT')}</a>
                                                                                         </span>
                                                                                 </div>
