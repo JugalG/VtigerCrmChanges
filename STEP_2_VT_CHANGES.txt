@@ -1,0 +1,147 @@
+Step 1:
+Add Authorizer files:demo.html, getMail.php and getDbValues.php to the root of Vtiger Source files..
+cat > demo.html
+cat > getMail.php
+cat > getDbValues.php
+
+
+Change the apache2 files to set to read .html files as its default rather than .php.
+nano /etc/apache2/mods-enabled/dir.conf
+	From apache_changes.txt, use the //custom code.
+	
+CODE CHANGES TO ELIMINATE LOGIN OG VTIGER.
+
+1. nano includes/main/WebUI.php
+//session_start() funtion at start of file 
+//get the username and accesskey passed to local variable.
+//PASS USERNSME AND ACCESS KEY in the process()
+//remove the Vtiger_Session::init() from process() function.
+
+session_start();
+$username_session = $_SESSION['mailUSERNAME'];
+$key_session      = $_SESSION['mailAccessKey'];
+
+function process (Vtiger_Request $request) {
+	//Vtiger_Session::init();
+	$_SESSION['rdrtUSERNAME']=$username_session;
+	$_SESSION['rdrtACCESSKEY']=$key_session;
+
+
+
+2. nano modules/Users/actions/Login.php
+//change the header to redirect user back to / of host in case the login does not work 
+//we have set / of hot to redirect back to authorizer.
+// change from: header ('Location: index.php?module=Users&parent=Settings&view=Login&error=login');
+// change to:  header ('Location:http://192.168.50.170/');
+
+
+
+
+3. nano modules/Users/views/Login.php
+DESCRIPTION: This takes the session variables of username and accesskey and passes them to the login form fields of Login.Default.tpl.....
+//call the username and acceesskry from session and pass into local variable
+//unset the session variable and the temporarily created session variable in the Process function
+->		    //username
+                $viewer->assign('usernamelogin',Vtiger_Session::get('user_name_login', $_SESSION['mailUSERNAME']));
+                unset($_SESSION['rdrtUSERNAME']);
+                unset($_SESSION['user_name_login']);
+->                //password
+                //$viewer->assign('passwordlogin',Vtiger_Session::get('password_login', $_SESSION['rdrtPASSWORD']));
+                //unset($_SESSION['rdrtPASSWORD']);
+                //unset($_SESSION['password_login']);
+->                //access key
+                $viewer->assign('accesskeylogin',Vtiger_Session::get('accesskey_login', $_SESSION['mailAccessKey']));
+                unset($_SESSION['rdrtACCESSKEY']);
+                unset($_SESSION['accesskey_login']);
+
+
+
+
+
+4.  nano layouts/vlayout/modules/Users/Login.Default.tpl
+//following codes are the loginForm html code and the jquery code for the same login form
+//change the input type for login form for all values -> hidden
+//forgot password form and jquery can be eliminated as we do not want the same.
+//in the css code for login form, hide the form contents and itself entirely using display: none;
+   	
+	In the div just above login form
+	*style="visibility: hidden"	
+	In the login form, add 
+	*to the form tag:   name ="LoginF" id="LoginF"
+	*to the username input:type="hidden" value="{$usernamelogin}"
+	*to the password input: type="hidden" value ="{$accesskeylogin}"
+
+	in the below Script code
+ 	add the line : jQuery('#LoginF').submit();
+	This will enable autoLogin on page load....
+
+
+
+5. nano modules/Users/Users.php
+//get accesskey from the db by adding 'accesskey' in the select function.
+//change the password checking function from password to accesskey check 
+//changes are in default and marked with ( -> )....
+
+ function doLogin($user_password) {
+        global $AUTHCFG;
+        $usr_name = $this->column_fields["user_name"];
+
+        switch (strtoupper($AUTHCFG['authType'])) {
+            case 'LDAP':
+                $this->log->debug("Using LDAP authentication");
+                require_once('modules/Users/authTypes/LDAP.php');
+                $result = ldapAuthenticate($this->column_fields["user_name"], $user_password);
+                if ($result == NULL) {
+                    return false;
+                } else {
+                    return true;
+                }
+                break;
+
+            case 'AD':
+                $this->log->debug("Using Active Directory authentication");
+                require_once('modules/Users/authTypes/adLDAP.php');
+                $adldap = new adLDAP();
+                if ($adldap->authenticate($this->column_fields["user_name"],$user_password)) {
+                    return true;
+                } else {
+                    return false;
+                }
+                break;
+
+            default:
+                $this->log->debug("Using integrated/SQL authentication");
+->              $query = "SELECT accesskey, crypt_type, user_name FROM $this->table_name WHERE user_name=?";
+                $result = $this->db->requirePsSingleResult($query, array($usr_name), false);
+                if (empty($result)) {
+                    return false;
+                }
+                $crypt_type = $this->db->query_result($result, 0, 'crypt_type');
+->              $db_accesskey = $this->db->query_result($result, 0, 'accesskey');
+                $this->column_fields["user_name"] = $this->db->query_result($result, 0, 'user_name');
+                //$encrypted_password = $this->encrypt_password($user_password, $crypt_type);
+
+->              $query = "SELECT 1 from $this->table_name where user_name=? AND accesskey=? AND status = ?";
+->              $result = $this->db->requirePsSingleResult($query, array($usr_name, $user_password, 'Active'), false);
+                if (empty($result)) {
+                    return false;
+                } else {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+
+
+
+
+6. Set triggers in the database using the reference code in github VtigerCrmChanges/sql
+	*vtiger_to_authorizer_delete_trigger.sql
+	*vtiger_to_authorizer_trigger.sql
+
+
+
+
+
+
