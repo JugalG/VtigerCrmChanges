@@ -1,0 +1,9 @@
+#After the triggers are set, we need to setup the Authorizer for user registration.
+#There is no user data in the DB to compare it with nor can we setup the user manually 
+#Login to the ADMIN <auth.url>/dashboard
+#Setup the SMTP server
+Once the server is set, The IDEA is 
+1. first time users will use the sign-up / admins can do that, which requires 
+    an otp or verification mail
+2. for resetting the authorizer password since there will be no need to reset the vtiger password.
+
